@@ -52,14 +52,19 @@ class _PriceScreenState extends State<PriceScreen> {
 
    Future<dynamic> getData() async {
     CoinData coinData = CoinData();
-    var coinDetails = await coinData.getCoinData();
-    if(coinDetails == null) {
-      return;
-    } else {
-      rate = coinDetails['rate'];
+    try {
+      var coinDetails = await coinData.getCoinData();
+      setState(() {
+        if (coinDetails == null) {
+          return 0;
+        } else {
+          rate = coinDetails['rate'];
+        }
+        return roundedRate = rate.toInt();
+      });
+    } catch(e) {
+      print(e);
     }
-    return roundedRate = rate.toInt();
-
    }
   @override
   void initState() {
